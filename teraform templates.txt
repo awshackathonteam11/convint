@@ -1,0 +1,633 @@
+User Data
+
+#Install Java
+yum -y install java-1.7.0-openjdk.x86_64 java-1.7.0-openjdk-devel.x86_64 java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x86_64 java-1.8.0-openjdk-headless.x86_64
+alternatives --install /usr/bin/java java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java 1
+alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+
+#Install ElasticSearch
+rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
+    echo '[elasticsearch-2.x]
+    name=Elasticsearch repository for 2.x packages
+    baseurl=http://packages.elastic.co/elasticsearch/2.x/centos
+    gpgcheck=1
+    gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch
+    enabled=1
+    ' | sudo tee /etc/yum.repos.d/elasticsearch.repo
+
+yum -y install elasticsearch
+
+#Install Nginix
+
+#Install Kibana
+
+#Install Logstash
+
+
+main.tf
+
+provider "aws" {
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
+  region  = "${var.aws_region}"
+}
+
+
+resource "aws_iam_user" "convint-elk" {
+    name = "convint-elk"
+    path = "/system/"
+}
+
+resource "aws_iam_instance_profile" "convint-inst-ec2-elk-p" {
+    name  = "convint-inst-ec2-elk-p"
+    path  = "/"
+    roles = ["${aws_iam_role.convint-inst-ec2-elk-r.name}"]
+}
+
+resource "aws_iam_role" "convint-inst-ec2-elk-r" {
+    name               = "convint-inst-ec2-elk-r"
+    path               = "/"
+    assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "codedeploy.amazonaws.com",
+          "ec2.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "convint-inst-ec2-elk-r_stg-inst-ec2-elk-log-p" {
+    name   = "stg-inst-ec2-elk-log-p"
+    role   = "${aws_iam_role.convint-inst-ec2-elk-r.id}"
+    policy = <<POLICY
+{
+  "Statement": [
+    {
+      "Action": [
+        "cloudwatch:PutMetricData"
+      ],
+      "Sid": "Stmt1414002531000",
+      "Resource": [
+        "*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+      ],
+      "Sid": "Stmt1414002720000",
+      "Resource": [
+        "*"
+      ],
+      "Effect": "Allow"
+    }
+  ],
+  "Version": "2012-10-17"
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "convint-inst-ec2-elk-r_stg-inst-ec2-elk-s3-p" {
+    name   = "stg-inst-ec2-elk-s3-p"
+    role   = "${aws_iam_role.convint-inst-ec2-elk-r.id}"
+    policy = <<POLICY
+{
+  "Statement": [
+    {
+      "Resource": [
+        "arn:aws:s3:::codedeploydemobucket/*",
+        "arn:aws:s3:::aws-codedeploy-us-east-1/*",
+        "arn:aws:s3:::aws-codedeploy-us-west-2/*",
+        "arn:aws:s3:::aws-codedeploy-us-west-1/*",
+        "arn:aws:s3:::aws-codedeploy-eu-west-1/*",
+        "arn:aws:s3:::aws-codedeploy-eu-central-1/*",
+        "arn:aws:s3:::aws-codedeploy-ap-southeast-1/*",
+        "arn:aws:s3:::aws-codedeploy-ap-southeast-2/*",
+        "arn:aws:s3:::aws-codedeploy-ap-northeast-1/*",
+        "arn:aws:s3:::aws-codedeploy-sa-east-1/*",
+        "arn:aws:s3:::aws-cloudwatch/downloads/latest/*",
+        "arn:aws:s3:::cdrepo",
+        "arn:aws:s3:::cdrepo/*",
+        "arn:aws:s3:::convintcd",
+        "arn:aws:s3:::convintcd/*"
+      ],
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+
+resource "aws_iam_role_policy" "convint-inst-ec2-elk-r_stg-inst-ec2-elk-ssm-p" {
+    name   = "stg-inst-ec2-elk-ssm-p"
+    role   = "${aws_iam_role.convint-inst-ec2-elk-r.id}"
+    policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstanceStatus",
+        "ssm:CreateAssociation",
+        "ssm:DescribeAssociation",
+        "ssm:ListAssociations",
+        "ssm:GetDocument",
+        "ssm:UpdateAssociationStatus",
+        "ssm:UpdateInstanceInformation",
+        "ds:CreateComputer"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "convint-inst-ec2-elk-r_stg-inst-ec2-elk-tag-p" {
+    name   = "stg-inst-ec2-elk--tag-p"
+    role   = "${aws_iam_role.convint-inst-ec2-elk-r.id}"
+    policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "*"
+      ],
+      "Action": [
+        "ec2:CreateTags"
+      ],
+      "Sid": "Stmt1437749945000"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role" "convint-elk-cdd-r" {
+    name               = "convint-elk-cdd-r"
+    path               = "/"
+    assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::322552378244:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+
+resource "aws_iam_policy" "convint-elk-cdd-p" {
+    name        = "convint-elk-cdd-p"
+    path        = "/"
+    description = ""
+    policy      = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "autoscaling:CompleteLifecycleAction",
+        "autoscaling:DeleteLifecycleHook",
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeLifecycleHooks",
+        "autoscaling:PutLifecycleHook",
+        "autoscaling:RecordLifecycleActionHeartbeat",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceStatus",
+        "tag:GetTags",
+        "tag:GetResources",
+        "sns:Publish",
+        "iam:GetInstanceProfile",
+        "iam:GetRole",
+        "iam:GetRolePolicy",
+        "iam:ListInstanceProfilesForRole",
+        "iam:ListRolePolicies",
+        "iam:ListRoles",
+        "iam:PassRole",
+        "iam:PutRolePolicy",
+        "codedeploy:*"
+      ],
+      "Resource": [
+        "arn:aws:codedeploy:us-west-2:322552378244:application:convint-elk-app",
+        "arn:aws:codedeploy:us-west-2:322552378244:deploymentgroup:convint-elk-app/convint-elk-grp",
+        "arn:aws:codedeploy:us-west-2:322552378244:deploymentconfig:*"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_policy" "convint-elk-s3-p" {
+    name        = "convint-elk-s3-p"
+    path        = "/"
+    description = ""
+    policy      = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1449796854000",
+      "Effect": "Allow",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion",
+        "s3:GetBucketAcl",
+        "s3:GetBucketCORS",
+        "s3:GetBucketLocation",
+        "s3:GetBucketLogging",
+        "s3:GetBucketNotification",
+        "s3:GetBucketPolicy",
+        "s3:GetBucketRequestPayment",
+        "s3:GetBucketTagging",
+        "s3:GetBucketVersioning",
+        "s3:GetBucketWebsite",
+        "s3:GetLifecycleConfiguration",
+        "s3:GetObject",
+        "s3:GetObjectAcl",
+        "s3:GetObjectTorrent",
+        "s3:GetObjectVersion",
+        "s3:GetObjectVersionAcl",
+        "s3:GetObjectVersionTorrent",
+        "s3:ListAllMyBuckets",
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:ListBucketVersions",
+        "s3:ListMultipartUploadParts",
+        "s3:PutBucketAcl",
+        "s3:PutBucketCORS",
+        "s3:PutBucketLogging",
+        "s3:PutBucketNotification",
+        "s3:PutBucketPolicy",
+        "s3:PutBucketRequestPayment",
+        "s3:PutBucketTagging",
+        "s3:PutBucketVersioning",
+        "s3:PutBucketWebsite",
+        "s3:PutLifecycleConfiguration",
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:PutObjectVersionAcl",
+        "s3:RestoreObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::convintcd",
+        "arn:aws:s3:::convintcd/*"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_policy_attachment" "convint-elk-s3-p-policy-attachment" {
+    name       = "convint-elk-s3-p-policy-attachment"
+    policy_arn = "${aws_iam_policy.convint-elk-s3-p.arn}"
+    groups     = []
+    users      = []
+    roles      = ["${aws_iam_role.convint-elk-cdd-r.name}"]
+}
+
+resource "aws_iam_policy" "convint-elk-sns-p" {
+    name        = "convint-elk-sns-p"
+    path        = "/"
+    description = ""
+    policy      = <<POLICY
+{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Stmt1473711282000",
+                "Effect": "Allow",
+                "Action": [
+                    "sns:Subscribe"
+                ],
+                "Resource": [
+                "arn:aws:sns:${var.aws_region}:${var.aws_account}:convint-elk-notify"
+                ]
+            }
+        ]
+    }
+POLICY
+}
+
+resource "aws_iam_policy_attachment" "convint-elk-sns-p-policy-attachment" {
+    name       = "convint-elk-sns-p-policy-attachment"
+    policy_arn = "${aws_iam_policy.convint-elk-sns-p.arn}"
+    groups     = []
+    users      = []
+    roles      = ["${aws_iam_role.convint-elk-cdd-r.name}"]
+}
+
+resource "aws_iam_policy" "convint-elk-cdd-usr-p" {
+    name        = "convint-elk-cdd-usr-p"
+    path        = "/"
+    description = ""
+    policy      = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Action": "sts:AssumeRole",
+    "Resource": "${aws_iam_role.convint-elk-cdd-r.arn}"
+  }
+}
+POLICY
+}
+
+resource "aws_iam_policy_attachment" "convint-elk-cdd-p-policy-attachment" {
+    name       = "convint-elk-cdd-p-policy-attachment"
+    policy_arn = "${aws_iam_policy.convint-elk-cdd-p.arn}"
+    groups     = []
+    users      = []
+    roles      = ["${aws_iam_role.convint-elk-cdd-r.name}"]
+}
+
+
+resource "aws_iam_policy_attachment" "convint-elk-cdd-usr-p-policy-attachment" {
+    name       = "convint-elk-cdd-usr-p-policy-attachment"
+    policy_arn = "${aws_iam_policy.convint-elk-cdd-usr-p.arn}"
+    groups     = []
+    users      = ["convint-elk"]
+    roles      = []
+}
+
+
+resource "aws_iam_policy" "convint-svc-elk-cd-p" {
+    name        = "convint-svc-elk-cd-p"
+    path        = "/"
+    description = ""
+    policy      = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "autoscaling:CompleteLifecycleAction",
+        "autoscaling:DeleteLifecycleHook",
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeLifecycleHooks",
+        "autoscaling:PutLifecycleHook",
+        "autoscaling:RecordLifecycleActionHeartbeat",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceStatus",
+        "tag:GetTags",
+        "tag:GetResources",
+        "sns:Publish",
+        "iam:GetInstanceProfile",
+        "iam:GetRole",
+        "iam:GetRolePolicy",
+        "iam:ListInstanceProfilesForRole",
+        "iam:ListRolePolicies",
+        "iam:ListRoles",
+        "iam:PassRole",
+        "iam:PutRolePolicy",
+        "codedeploy:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role" "convint-svc-elk-cd-r" {
+    name               = "convint-svc-elk-cd-r"
+    path               = "/"
+    assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "codedeploy.amazonaws.com",
+          "ec2.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_policy_attachment" "convint-svc-elk-cd-p-policy-attachment" {
+    name       = "convint-svc-elk-cd-p-policy-attachment"
+    policy_arn = "${aws_iam_policy.convint-svc-elk-cd-p.arn}"
+    groups     = []
+    users      = []
+    roles      = ["${aws_iam_role.convint-svc-elk-cd-r.name}"]
+}
+
+
+resource "aws_security_group" "vpc-c62e0ea3-convint-elk-web-int" {
+    name        = "convint-elk-web-int"
+    description = "convint-elk-web-int"
+    vpc_id      = "vpc-c62e0ea3"
+
+    ingress {
+        from_port       = 80
+        to_port         = 80
+        protocol        = "tcp"
+        cidr_blocks     = ["10.6.40.0/21"]
+    }
+
+
+    egress {
+        from_port       = 0
+        to_port         = 0
+        protocol        = "-1"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
+
+    tags {
+        "Name" = "convint-elk-web-int"
+    }
+}
+
+resource "aws_security_group" "vpc-c62e0ea3-convint-elk-elb2inst" {
+    name        = "convint-elk-elb2inst"
+    description = "convint-elk-elb2inst"
+    vpc_id      = "vpc-c62e0ea3"
+
+    ingress {
+        from_port       = 80
+        to_port         = 80
+        protocol        = "tcp"
+        cidr_blocks     = ["10.6.40.0/21"]
+    }
+
+
+    egress {
+        from_port       = 0
+        to_port         = 0
+        protocol        = "-1"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
+
+    tags {
+        "Name" = "convint-elk-elb2inst"
+    }
+}
+
+resource "aws_security_group" "vpc-c62e0ea3-convint-elk-ssh" {
+    name        = "convint-elk-ssh"
+    description = "convint-elk-ssh"
+    vpc_id      = "vpc-c62e0ea3"
+
+    ingress {
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        cidr_blocks     = ["10.6.40.0/21", "10.8.0.0/15", "172.26.196.0/24", "172.31.214.0/24", "172.31.215.0/24"]
+    }
+
+
+    egress {
+        from_port       = 0
+        to_port         = 0
+        protocol        = "-1"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
+
+    tags {
+        "Name" = "convint-elk-ssh"
+    }
+}
+
+resource "aws_elb" "convint-elk-int-elb" {
+    depends_on                  = ["aws_security_group.vpc-c62e0ea3-convint-elk-elb2inst"]
+    name                        = "convint-elk-int"
+    subnets                     = ["subnet-12bdef65", "subnet-cde29694"]
+    source_security_group       = "$aws_security_group.vpc-c62e0ea3-convint-elk-elb2inst.id"
+    security_groups             = [ "${aws_security_group.vpc-c62e0ea3-convint-elk-elb2inst.id}"]
+    instances                   = []
+    cross_zone_load_balancing   = false
+    idle_timeout                = 60
+    connection_draining         = false
+    connection_draining_timeout = 300
+    internal                    = true
+
+    listener {
+        instance_port      = 80
+        instance_protocol  = "http"
+        lb_port            = 80
+        lb_protocol        = "http"
+        ssl_certificate_id = ""
+    }
+
+    health_check {
+        healthy_threshold   = 10
+        unhealthy_threshold = 2
+        interval            = 30
+        target              = "TCP:80"
+        timeout             = 5
+    }
+
+    tags {
+        "Name" = "convint-elk-int-elb"
+    }
+}
+
+resource "aws_sns_topic" "convint-elk-notify" {
+  name = "convint-elk-notify"
+}
+
+resource "aws_autoscaling_notification" "convint-elk-asg-notify" {
+  group_names = [
+    "${aws_autoscaling_group.convint-elk-asg.name}"
+  ]
+  notifications  = [
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE",
+    "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+    "autoscaling:EC2_INSTANCE_TERMINATE_ERROR"
+  ]
+  topic_arn = "${aws_sns_topic.convint-elk-notify.arn}"
+}
+
+resource "aws_launch_configuration" "convint-elk-lc" {
+    depends_on                  = ["aws_security_group.vpc-c62e0ea3-convint-elk-web-int","aws_security_group.vpc-c62e0ea3-convint-elk-ssh"]
+    name                        = "convint-elk-lc"
+    image_id                    = "ami-1712d877"
+    instance_type               = "t2.micro"
+    iam_instance_profile        = "${aws_iam_instance_profile.convint-inst-ec2-elk-p.name}"
+    key_name                    = "venue-convint-key"
+    security_groups             = ["${aws_security_group.vpc-c62e0ea3-convint-elk-web-int.id}", "${aws_security_group.vpc-c62e0ea3-convint-elk-ssh.id}"]
+    user_data                   = "${file("elk_userdata.txt")}"
+    enable_monitoring           = true
+    ebs_optimized               = false
+
+}
+
+resource "aws_autoscaling_group" "convint-elk-asg" {
+    depends_on                = ["aws_launch_configuration.convint-elk-lc"]
+    desired_capacity          = 1
+    health_check_grace_period = 0
+    health_check_type         = "EC2"
+    launch_configuration      = "${aws_launch_configuration.convint-elk-lc.name}"
+    load_balancers            = ["${aws_elb.convint-elk-int-elb.name}"]
+    max_size                  = 1
+    min_size                  = 1
+    name                      = "convint-elk-asg"
+    vpc_zone_identifier       = ["subnet-12bdef65", "subnet-cde29694"]
+
+}
+
+resource "aws_codedeploy_app" "convint-elk-app" {
+    name = "convint-elk-app"
+}
+
+resource "aws_codedeploy_deployment_group" "convint-elk-grp" {
+    app_name              = "${aws_codedeploy_app.convint-elk-app.name}"
+    deployment_group_name = "convint-elk-grp"
+    deployment_config_name = "CodeDeployDefault.OneAtATime"
+    service_role_arn      = "${aws_iam_role.convint-svc-elk-cd-r.arn}"
+    autoscaling_groups    = ["${aws_autoscaling_group.convint-elk-asg.name}"]
+}
+
+
+variables.tf
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_region" {
+  default = "us-east-1"
+}
+variable "aws_account" {
+   default = "474340414817"
+}
