@@ -1,0 +1,583 @@
+select * from public."household_secL" 
+
+FoodSecLandscp
+
+select column_name
+from INFORMATION_SCHEMA.COLUMNS where table_name = 'biomass_vw';
+
+select
+ count(*) from public."household"
+
+create view biomassfin as
+select 
+ewps_uuid
+ewp_uuid, parent_uuid, eplot_no,
+biomass from public."biomass_vw1" d
+inner join public."eplot" e on e.uuid= d.parent_uuid
+
+
+
+select count(*) from public."eplot_woody_plant_stem"
+
+
+
+
+select 
+
+select t.uuid, t.parent_uuid,t.survey_uuid,t.hh_e65_2,x.country, case when t.hh_e65_2 = 'week' THEN 52 ELSE 12 END normalization,
+t.hh_e65_1 *  case when t.hh_e65_2 = 'week' THEN 52 ELSE 12 END    nonagincome
+  from public."household_secE" t
+inner join public."household_secB" f ON f.uuid= t.parent_uuid
+inner join public."household" x on x.uuid= f.parent_uuid
+
+select t.uuid, t.parent_uuid,t.survey_uuid,t.hh_e65_2,x.country, case when t.hh_e65_2 = 'week' THEN 52 ELSE 12 END normalization,
+t.hh_e65_1 *  case when t.hh_e65_2 = 'week' THEN 52 ELSE 12 END * case when country='TZA' then 1/2137.64 when
+country = 'GHA' then 1/
+   nonagincome
+  from public."household_secE" t
+inner join public."household_secB" f ON f.uuid= t.parent_uuid
+inner join public."household" x on x.uuid= f.parent_uuid
+where hh_e65_2 is  null limit 10
+
+select country from public."household"
+group by 1
+
+GHA
+UGA
+RWA
+TZA
+
+
+select t.uuid, t.parent_uuid,t.survey_uuid,t.hh_e65_2,x.country,t.hh_e65_1 , case when t.hh_e65_2 = 'week' THEN 52 ELSE 12 END normalization,
+t.hh_e65_1 *  case when t.hh_e65_2 = 'week' THEN 52 ELSE 12 END    nonagincome
+  from public."household_secE" t
+inner join public."household_secB" f ON f.uuid= t.parent_uuid
+inner join public."household" x on x.uuid= f.parent_uuid
+
+where hh_e65_2 is  null limit 10
+
+
+GHA
+UGA
+RWA
+TZA
+
+
+
+select hh_e65_2 from 
+
+
+hh_e65_1 * [[ hh_e65_2 - normalize to annual by date ]] * [[exchange rate]]
+
+
+select * from public."household" limit 10
+
+
+
+SELECT * FROM public."household" limit 100
+
+
+l_101_2	double precision	
+l_102_2	double precision	
+l_103_2	double precision	
+l_199_2	double precision	
+l_201_2	double precision	
+l_202_2	double precision	
+l_203_2	double precision	
+l_203a_2	double precision	
+l_203b_2	double precision	
+l_204_2	double precision	
+l_205_2	double precision	
+l_206_2	double precision	
+l_207_2	double precision	
+l_207a_2	double precision	
+l_208_2	double precision	
+l_209_2	double precision	
+l_211_2	double precision	
+l_212_2	double precision	
+l_213_2	double precision	
+l_214_2	double precision	
+l_215_2	double precision	
+l_216_2	double precision	
+l_217_2	double precision	
+l_217a_2	double precision	
+l_218_2	double precision	
+l_219_2	double precision	
+l_220_2	double precision	
+l_221_2	double precision	
+l_222_2	double precision	
+l_223_2	double precision	
+l_224_2	double precision	
+l_224a_2	double precision	
+l_224b_2	double precision	
+
+
+describe table household_secL
+
+select * from
+household_secLx1_vw
+
+drop view household_secL_vw
+
+CREATE VIEW household_secM_vw AS SELECT uuid, parent_uuid,
+survey_uuid,
+COALESCE(l_101_2,0) +
+COALESCE(l_102_2,0) +
+COALESCE(l_103_2,0) +
+COALESCE(l_199_2,0) +
+COALESCE(l_201_2,0) +
+COALESCE(l_202_2,0) +
+COALESCE(l_203_2,0) +
+COALESCE(l_203a_2,0) +
+COALESCE(l_203b_2,0) +
+COALESCE(l_204_2,0) +
+COALESCE(l_205_2,0) +
+COALESCE(l_206_2,0) +
+COALESCE(l_207_2,0) +
+COALESCE(l_207a_2,0) +
+COALESCE(l_208_2,0) +
+COALESCE(l_209_2,0) +
+COALESCE(l_211_2,0) +
+COALESCE(l_212_2,0) +
+COALESCE(l_213_2,0) +
+COALESCE(l_214_2,0) +
+COALESCE(l_215_2,0) +
+COALESCE(l_216_2,0) +
+COALESCE(l_217_2,0) +
+COALESCE(l_217a_2,0) +
+COALESCE(l_218_2,0) +
+COALESCE(l_219_2,0) +
+COALESCE(l_220_2,0) +
+COALESCE(l_221_2,0) +
+COALESCE(l_222_2,0) +
+COALESCE(l_223_2,0) +
+COALESCE(l_224_2,0) +
+COALESCE(l_224a_2,0) +
+COALESCE(l_224b_2,0) as nonfoodexpend
+
+ from public."household_secM"
+
+CREATE VIEW household_secM_vw AS
+select uuid, parent_uuid,
+survey_uuid,
+COALESCE(l_301_2,0) +
+COALESCE(l_302_2,0) +
+COALESCE(l_303_2,0) +
+COALESCE(l_304_2,0) +
+COALESCE(l_305_2,0) +
+COALESCE(l_306_2,0) +
+COALESCE(l_307_2,0) +
+COALESCE(l_308_2,0) +
+COALESCE(l_309_2,0) +
+COALESCE(l_310_2,0) +
+COALESCE(l_311_2,0) +
+COALESCE(l_312_2,0) +
+COALESCE(l_313_2,0) +
+COALESCE(l_314_2,0) +
+COALESCE(l_315_2,0) +
+COALESCE(l_316_2,0) +
+COALESCE(l_317_2,0) +
+COALESCE(l_318_2,0) +
+COALESCE(l_319_2,0) +
+COALESCE(l_320_2,0) +
+COALESCE(l_320a_2,0) +
+COALESCE(l_320b_2,0) AS nonfoodexpend
+from 
+public."household_secM"
+
+
+
+ l_101_2	+	
+l_102_2	+	
+l_103_2	+	
+l_199_2	+	
+l_201_2	+	
+l_202_2	+	
+l_203_2	+	
+l_203a_2	+	
+l_203b_2	+	
+l_204_2	+	
+l_205_2	+	
+l_206_2	+	
+l_207_2	+	
+l_207a_2	+	
+l_208_2	+	
+l_209_2	+	
+l_211_2	+	
+l_212_2	+	
+l_213_2	+	
+l_214_2	+	
+l_215_2	+	
+l_216_2	+	
+l_217_2	+	
+l_217a_2	+	
+l_218_2	+	
+l_219_2	+	
+l_220_2	+	
+l_221_2	+	
+l_222_2	+	
+l_223_2	+	
+l_224_2	+	
+l_224a_2	+	
+l_224b_2	 from public."household_secL" d
+group by 1,2,3
+
+
+household_secL; household_secM; household_secJ2
+
+
+
+hh_e65_1 * [[ hh_e65_2 - normalize to annual by date ]] * [[exchange rate]]
+
+
+select column_name
+from INFORMATION_SCHEMA.COLUMNS where table_name = 'farmfieldsoils_yields_maize';
+
+
+
+
+farmfieldsoils
+farmfieldsoils_field_eligibility
+farmfieldsoils_soil_measurements
+farmfieldsoils_lab
+farmfieldsoils_lab_weights
+farmfieldsoils_yields_maize
+farmfieldsoils_yields_maize_field
+farmfieldsoils_yields_maize_field_characteristic
+farmfieldsoils_yields_paddy_maize_field_characteristic
+farmfieldsoils_yields_paddy_maize
+farmfieldsoils_yields_paddy_maize_field
+farmfieldsoils_yields_weight
+farmfieldsoils_yields_weight_crop
+household
+household_secB
+household_secC
+household_secE
+household_secJ1
+household_secJ2
+household_secK1
+household_secK2
+household_secL
+household_secM
+household_secN
+household_secU
+household_secHV1
+household_secHV2
+household_secI
+farmfieldsoils_processed
+country
+eplot_id
+eplotsoils_processed
+landscape
+odk_times
+plant_species
+schema_migrations
+spatial_ref_sys
+staff
+weatherdata
+weatherstation
+rapid_water
+rra
+rra_dominant
+water_quality
+water_quality_sample_data
+
+agric
+agric_roster
+agric_field_roster
+agric_field_details
+agric_field_details_labor
+agric_crops_by_field
+agric_crops_by_hh
+agric_perm_crop_by_field
+agric_perm_crop
+agric_byprod
+agric_livestock
+agric_livestock_byproduct
+agric_implement
+agric_extension
+agric_extension_family
+agric_livestock_by_field
+eplot
+eplot_subplot_landscapefn
+eplot_subplot_vegetation
+eplot_subplot_woody_canopy
+eplot_woody_plant
+eplot_woody_plant_stem
+eplotsoils_sample
+eplotsoils_weights
+eplotsoils_lab
+eplotsoils_lab_weights
+
+
+
+
+
+create view hhsecI as
+select s.*, f.uuid as seciuuid,f.parent_uuid,f.survey_uuid as secisurveyuuid,hh_i01,hh_i02_1,hh_i02_2,hh_i02_3,hh_i02_4,hh_i02_5,
+hh_i02_6,hh_i02_7,hh_i02_8,hh_i031,hh_i032,hh_i04_1,hh_i04_1_other,hh_i04_2,hh_i04_2_other,
+hh_i04_3,hh_i04_3_other,hh_i05,hh_i05_other,hh_i05_2,hh_i05_2_other,hh_i06,hh_i07_1,
+hh_i07_2,hh_i07_3,hh_i08,hh_i09_2012,hh_i09_2012_1,hh_i09_2012_2,hh_i09_2012_3,hh_i09_2012_4,
+hh_i09_2012_5,hh_i09_2012_6,hh_i09_2012_7,hh_i09_2012_8,hh_i09_2012_9,hh_i09_2012_10,
+hh_i09_2012_11,hh_i09_2012_12,hh_i09_2013,hh_i09_2013_1,hh_i09_2013_2,hh_i09_2013_3,
+hh_i09_2013_4,hh_i09_2013_5,hh_i09_2013_6,hh_i09_2013_7,hh_i09_2013_8,hh_i09_2013_9,
+hh_i09_2013_10,hh_i09_2013_11,hh_i09_2013_12,hh_i10_1,hh_i10_2,hh_i10_3,hh_i10_1oth,
+hh_i10_2oth,hh_i10_3oth from public."household" s
+inner join public."household_secI" f on f.parent_uuid = s.uuid
+
+
+
+create view hhHV2 as
+select s.*, 
+
+r.uuid as seciuuid,r.parent_uuid,r.survey_uuid as secisurveyuuid,hh_i01,hh_i02_1,hh_i02_2,hh_i02_3,hh_i02_4,hh_i02_5,
+hh_i02_6,hh_i02_7,hh_i02_8,hh_i031,hh_i032,hh_i04_1,hh_i04_1_other,hh_i04_2,hh_i04_2_other,
+hh_i04_3,hh_i04_3_other,hh_i05,hh_i05_other,hh_i05_2,hh_i05_2_other,hh_i06,hh_i07_1,
+hh_i07_2,hh_i07_3,hh_i08,hh_i09_2012,hh_i09_2012_1,hh_i09_2012_2,hh_i09_2012_3,hh_i09_2012_4,
+hh_i09_2012_5,hh_i09_2012_6,hh_i09_2012_7,hh_i09_2012_8,hh_i09_2012_9,hh_i09_2012_10,
+hh_i09_2012_11,hh_i09_2012_12,hh_i09_2013,hh_i09_2013_1,hh_i09_2013_2,hh_i09_2013_3,
+hh_i09_2013_4,hh_i09_2013_5,hh_i09_2013_6,hh_i09_2013_7,hh_i09_2013_8,hh_i09_2013_9,
+hh_i09_2013_10,hh_i09_2013_11,hh_i09_2013_12,hh_i10_1,hh_i10_2,hh_i10_3,hh_i10_1oth,
+hh_i10_2oth,hh_i10_3oth 
+
+f.uuid as hv2uuid,parent_uuid,f.survey_uuid as hv2surveyuuid,hh_hv105b_01,hh_hv105c_01,hh_hv106_01,hh_hv109_01,hh_hv109a_01,
+hh_hv109b_01,hh_hv109c_01,hh_hv109c_01_1,hh_hv109c_01_2,hh_hv109c_01_3,hh_hv109c_01_4,
+hh_hv109c_01_5,hh_hv109c_01_6,hh_hv109c_01_7,hh_hv109c_01_8,hh_hv109c_01_9,hh_hv109c_01_10,
+hh_hv109c_01_11,hh_hv109c_01_12,hv2_10_01,hv2_10_02,hv2_10_03,hv2_10_04,hv2_10_05,
+hv2_10_06,hv2_10_07,hv2_10_08,hv2_10_09,hv2_10_09_oth,hv2_11_01,hv2_12_01,hv2_13_01,
+hv2_14_01,hv2_15_01,hv2_11_02,hv2_12_02,hv2_13_02,hv2_14_02,hv2_15_02,hv2_11_03,
+hv2_12_03,hv2_13_03,hv2_14_03,hv2_15_03,hv2_11_04,hv2_12_04,hv2_13_04,hv2_14_04,
+hv2_15_04,hv2_11_05,hv2_12_05,hv2_13_05,hv2_14_05,hv2_15_05,hv2_11_06,hv2_12_06,
+hv2_13_06,hv2_14_06,hv2_15_06,hv2_11_07,hv2_12_07,hv2_13_07,hv2_14_07,hv2_15_07,
+hv2_11_08,hv2_12_08,hv2_13_08,hv2_14_08,hv2_15_08,hv2_11_09,hv2_12_09,hv2_13_09,
+hv2_14_09,hv2_15_09
+
+uuid,parent_uuid,survey_uuid,ind,indid,hh_b02,hh_b05,hh_b03,hh_b04,hh_b07,hh_b08
+
+
+uuid,parent_uuid,survey_uuid,hh_j01,hh_j02,hh_j02oth,hh_j03,hh_j04_1,hh_j04_2,hh_j05,
+hh_j05_other,hh_j06,hh_j06_other,hh_j07,hh_j07_other,hh_j08,hh_j08_other,hh_j09,
+hh_j09_other,hh_j10,hh_j11,hh_j11_other,hh_j12,hh_j12_other,hh_j13,hh_j13_other,
+hh_j14,hh_j14_oth,hh_j15,hh_j15_oth,hh_j16_1,hh_j16_2,hh_j16_1oth,hh_j16_2oth,hh_j17_1,
+hh_j17_2,hh_j17_1oth,hh_j17_2oth,hh_j18_1,hh_j18_2,hh_j18_1oth,hh_j18_2oth,hh_j19_1,
+hh_j19_2,hh_j19_1oth,hh_j19_2oth,hh_j20
+
+
+uuid,parent_uuid,survey_uuid,k_02_1,k_02_2,k_03_1,k_03_2,k_04,k_05_1,k_05_2,k_05a,
+k_06_1,k_06_2,k_item,k_item_code,k_item_other
+
+
+uuid,parent_uuid,survey_uuid,l_101_1,l_101_2,l_102_1,l_102_2,l_103_1,l_103_2,l_199_1,
+l_199_2,l_201_1,l_201_2,l_202_1,l_202_2,l_203_1,l_203_2,l_203a_1,l_203a_2,l_203b_1,
+l_203b_2,l_204_1,l_204_2,l_205_1,l_205_2,l_206_1,l_206_2,l_207_1,l_207_2,l_207a_1,
+l_207a_2,l_208_1,l_208_2,l_209_1,l_209_2,l_211_1,l_211_2,l_212_1,l_212_2,l_213_1,
+l_213_2,l_214_1,l_214_2,l_215_1,l_215_2,l_216_1,l_216_2,l_217_1,l_217_2,l_217a_1,
+l_217a_2,l_218_1,l_218_2,l_219_1,l_219_2,l_220_1,l_220_2,l_221_1,l_221_2,l_222_1,
+l_222_2,l_223_1,l_223_2,l_224_1,l_224_2,l_224a_1,l_224a_2,l_224b_1,l_224b_2
+
+
+uuid,parent_uuid,survey_uuid,l_301_1,l_301_2,l_302_1,l_302_2,l_303_1,l_303_2,l_304_1,
+l_304_2,l_305_1,l_305_2,l_306_1,l_306_2,l_307_1,l_307_2,l_308_1,l_308_2,l_309_1,
+l_309_2,l_310_1,l_310_2,l_311_1,l_311_2,l_312_1,l_312_2,l_313_1,l_313_2,l_314_1,
+l_314_2,l_315_1,l_315_2,l_316_1,l_316_2,l_317_1,l_317_2,l_318_1,l_318_2,l_319_1,
+l_319_2,l_320_1,l_320_2,l_320a_1,l_320a_2,l_320b_1,l_320b_2
+
+
+
+uuid,parent_uuid,survey_uuid,n_401,n_402,n_403,n_404,n_405,n_406,n_407,n_408,n_409,
+n_410,n_411,n_412,n_413,n_414,n_415,n_416,n_417,n_418,n_419,n_420,n_421,n_422,n_423,
+n_424,n_425,n_426,n_427,n_428,n_429,n_430,n_431,n_432,n_433,n_434,n_435,n_436,n_437,
+n_438,n_439,n_440,n_441,n_442,n_443,n_444,n_445,n_446,n_447,n_448,n_449,n_450,n_451,
+n_452,n_453,n_454,n_455,n_456,n_457,n_458,n_459,n_460,n_461,n_462,n_463,n_464,n_465,
+n_466,n_467,n_468
+
+ from public."household" s
+inner join public."household_secHV2" f on f.parent_uuid = s.uuid 
+inner join public."household_secI" f on f.parent_uuid = s.uuid
+
+
+
+create view hhHV2 as
+select s.*, 
+uuid,parent_uuid,survey_uuid,ind,indid,hh_b02,hh_b05,hh_b03,hh_b04,hh_b07,hh_b08
+
+
+
+
+create view agricfinalr1 as
+select 
+d.uuid as agruuid,d.survey_uuid as agrsurveyuuid,country,region,district,town,ward,landscape_no,eplot_no,hh_no,hh_first_name,
+hh_last_name,enumerator_first_name,enumerator_last_name,enumerator_code,time_interview_start,
+date_of_interview,supervisor_first_name,supervisor_last_name,supervisor_code,questionnaire_inspection_date,
+clerk_first_name,clerk_last_name,clerk_code,data_entry_date,fr_01,fr2_10,fr_5,ag12b_vs_09a,
+ag12a_vs_10,ag12a_vs_10_other,hh_refno,hh_head_refno,enumerator_id,supervisor_id,
+clerk_id,survey_instrument,end_time,
+
+e.uuid as ag9uuid,e.parent_uuid as ag9parentuuid,e.survey_uuid as ag9surveyuuid,e.zaocode as ag09zaocode,ag09_02_1,
+ag09_03,ag09_03_other,ag09_03_by,ag09_03_by_other,ag09_03_product_name,ag09_04_1,
+ag09_04_2,ag09_07,ag09_07_2,ag09_05,ag09_06_1,ag09_06_2,ag09_08,ag09_vs_8a,ag09_vs_8b_1,
+ag09_vs_8b_2,ag09_10,ag09_11,is_processed,is_byproduct,
+
+r.uuid as ag4uuid,r.parent_uuid as ag4parentuuid,r.survey_uuid as ag4surveyuuid,
+r.field_id ag4fieldid,r.season as ag4season,r.zaocode as ag4zaocode,r.crop_name as ag4acropname,ag4a_01,ag4a_02,ag4a_04,ag4a_05,ag4a_05_other,
+ag4a_vs_5a,ag4a_06,ag4a_08,ag4a_15,ag4a_15_unit,ag4a_16,ag4a_19,ag4a_21,ag4a_23,
+
+x.uuid as ag5uuid, x.parent_uuid as ag5parentuuid,x.survey_uuid as ag5surveyuuid,x.season as ag5season,x.zaocode as ag5zaocode,x.crop_name as ag5acropname,ag5a_01,ag5a_02_1,ag5a_02_2,
+ag5a_03,ag5a_12_1,ag5a_20,ag5a_21,ag5a_21_other,ag5a_22,ag5a_24,ag5a_24_other,ag5a_25,
+ag5a_26,
+
+t.uuid as ag12uuid,t.parent_uuid as ag12parentuuid,t.survey_uuid as ag12surveyuuid,source_id,source_name,sourceid,ag12a_02_1,ag12a_02_2,
+ag12a_02_3,ag12a_02_4,ag12a_02_5,ag12a_02_6,ag12a_03,ag12a_04,ag12a_05,
+
+y.uuid as srcuuid,y.parent_uuid as srcparentuuid,
+y.survey_uuid as srcsurveyuuid,source_id_family,source_name_family,ag12b_06,ag12b_08,ag12b_09,
+
+l.uuid as ag3uuid,
+l.parent_uuid as ag3parentuuid,l.survey_uuid as ag3surveyuuid,l.field_id as ag3afieldid,l.season as ag3season,l.ag3a_02_1,l.ag3a_02_2,ag3a_02_3,ag3a_03,ag3a_03_other,
+ag3a_04,ag3a_07_1,ag3a_10,ag3a_14,ag3a_15_1,ag3a_15_2,ag3a_17,ag3a_18,ag3a_18_other,
+ag3a_20,ag3a_20_other,ag31_vs_13,ag3a_23,ag3a_24,ag3a_24_other,ag3a_28,ag3a_34,ag3f_33_17,
+ag3a_39,ag3a_vs_18a,ag3a_vs_18a_other,ag3a_vs_18b,ag3a_vs_18b_other,ag3a_40,ag3a_41,
+ag3a_42,ag3a_43,ag3a_45,ag3a_46,ag3a_46_other,ag3a_47,ag3a_48,ag3a_49,ag3a_52,ag3a_53,
+ag3a_53_other,ag3a_54,ag3a_55,ag3a_56,ag3a_58,ag3a_59,ag3a_59_other,ag3a_60_1,ag3a_60_2,
+ag3a_61,ag3a_72_1,ag3a_72_2,ag3a_72_21,ag3a_72_3,ag3a_72_4,ag3a_72_5,ag3a_72_51,
+ag3a_72_6,ag3a_72_62,ag3a_72_61,ag3a_72_63,ag3a_72_64,ag3a_72_7,ag3a_72_8,ag3a_72_81,
+ag3a_72_9,fd33_18a_1,fd33_18a_2,fd33_18a_3,fd33_18a_4,fd33_18a_5,fd33_18a_6,fd33_18a_7,
+fd33_18a_8,fd35_24a_dap,fd35_24a_urea,fd35_24a_tsp,fd35_24a_can,fd35_24a_sa,fd35_24a_npk,
+fd35_24a_mrp,fd3b3_18a_1,fd3b3_18a_2,fd3b3_18a_3,fd3b3_18a_4,fd3b3_18a_5,fd3b3_18a_6,
+fd3b3_18a_7,fd3b3_18a_8,fd3b5a_24a_dap,fd3b5a_24a_urea,fd3b5a_24a_tsp,fd3b5a_24a_can,
+fd3b5a_24a_sa,fd3b5a_24a_npk,fd3b5a_24a_mrp,
+
+u.uuid as ag2auuid, 
+u.parent_uuid as ag2aparentuuid ,u.survey_uuid as ag2asurveyuuid,u.field_id ag2afieldid,field_name,ag2a_vs_2b1,ag2a_vs_2b1_other,ag2a_vs_2b2_1,
+ag2a_vs_2c,ag2a_vs_2c_other,ag2a_vs_2d1,ag2a_04,ag2a_07,ag2a_08,ag2a_08_other,gps_lat,
+gps_long,
+gps_coords,
+
+q.uuid as ag11uuid,q.parent_uuid as ag11parentuuid,q.survey_uuid as ag11surveyuuid,q.itemcode,toolname,ag11_01,ag11_07,
+
+o.uuid as ag10auuid,o.parent_uuid as ag10aparentuuid,
+o.survey_uuid as ag10asurveyuuid,lvstkcode,animal_name,ag10a_05_1,ag10a_05_2,ag10a_05_3,ag10a_19,ag10a_20,
+ag10a_21,ag10a_24,ag10a_25,ag10a_26,ag10a_27,ag10a_33,ag10a_34,ag10a_vs_01,ag10a_vs_02,
+ag10a_vs_03,ag10a_vs_04,
+
+cc.uuid as ag10buuid, cc.parent_uuid as ag10bparentuuid,cc.survey_uuid as ag10bsurveyuuid,cc.itemcode as ag10bitemcode,ag10b_01,ag10b_1a,
+ag10b_1a_unit,ag10b_1b,ag10b_05_1,ag10b_05_2,ag10b_06,
+
+ii.uuid as ag7auuid,ii.parent_uuid as ag7aparentuuid,ii.survey_uuid as ag7asurveyuuid,
+crop_type,ii.zaocode as ag7azaocode,ii.crop_name as ag7acropname,ag7a_02,ag7a_03_1,ag7a_03_2,ag7a_04,
+
+tt.uuid as hhuuid,tt.parent_uuid as parentuuid ,
+tt.survey_uuid as surveyuuid,tt.hh_indid_name as hhindidname,tt.hh_indid_age,hh_indid_gender,hh_indid_respondent,tt.ind as hhind
+
+from public."agric" d
+left outer join public."agric_byprod" e on e.parent_uuid = d.uuid
+left outer join public."agric_crops_by_field" r on r.parent_uuid= d.uuid
+left outer join public."agric_crops_by_hh" x on x.parent_uuid= d.uuid
+left outer join public."agric_extension" t on t.parent_uuid= d.uuid
+left outer join public."agric_extension_family" y on y.parent_uuid= d.uuid
+left outer join public."agric_field_details" l on l.parent_uuid= d.uuid
+left outer join public."agric_field_roster" u  on u.parent_uuid= d.uuid
+left outer join public."agric_implement" q  on q.parent_uuid= d.uuid
+left outer join public."agric_livestock" o  on o.parent_uuid= d.uuid
+left outer join  public."agric_livestock_byproduct" cc  on cc.parent_uuid= d.uuid
+left outer join public."agric_perm_crop" ii  on ii.parent_uuid= d.uuid
+left outer join public."agric_roster" tt  on tt.parent_uuid= d.uuid
+
+select * from public."agricfinal"
+group by 
+
+
+n.uuid as ag3auuid,n.parent_uuid as ag3parentid ,n.survey_uuid as ag3asurveyuuid,n.hh_indid_name as ag3ahhindidname,
+ag3a_70_preparing,ag3a_70_weeding,ag3a_70_fertilizing,ag3a_70_harvesting,n.ind as ag3ind,
+
+
+
+
+sel dd.*, a.uuid as hhuuid,a.survey_uuid hhsurveyuuid,country,region,district,town,ward,hh_refno,landscape_no,eplot_no,
+hh_no,clerk_id,clerk_first_name,clerk_last_name,clerk_code,data_clerk_code_2,data_entry_date,
+data_entry_date_2,questionnaire_inspection_date,supervisor_id,supervisor_first_name,
+supervisor_last_name,supervisor_code,hh_head_refno,hh_first_name,hh_last_name,interview_date,
+interview_time,observations,survey_instrument,time_finish from public."household" a
+inner
+
+
+select count(*) from newagrictab
+
+
+create view newagrictab as
+select agruuid,agrsurveyuuid,country,region,district,town,ward,landscape_no,eplot_no,hh_no,
+hh_first_name,hh_last_name,enumerator_first_name,enumerator_last_name,enumerator_code,
+time_interview_start,date_of_interview,supervisor_first_name,supervisor_last_name,
+supervisor_code,questionnaire_inspection_date,clerk_first_name,clerk_last_name,clerk_code,
+data_entry_date,fr_01,fr2_10,fr_5,ag12b_vs_09a,ag12a_vs_10,ag12a_vs_10_other,hh_refno,
+hh_head_refno,enumerator_id,supervisor_id,clerk_id,survey_instrument,end_time,ag9uuid,
+ag9parentuuid,ag9surveyuuid,ag09zaocode,ag09_02_1,ag09_03,ag09_03_other,ag09_03_by,
+ag09_03_by_other,ag09_03_product_name,ag09_04_1,ag09_04_2,ag09_07,ag09_07_2,ag09_05,
+ag09_06_1,ag09_06_2,ag09_08,ag09_vs_8a,ag09_vs_8b_1,ag09_vs_8b_2,ag09_10,ag09_11,
+is_processed,is_byproduct,ag4uuid,ag4parentuuid,ag4surveyuuid,ag4fieldid,ag4season,
+ag4zaocode,ag4acropname,ag4a_01,ag4a_02,ag4a_04,ag4a_05,ag4a_05_other,ag4a_vs_5a,
+ag4a_06,ag4a_08,ag4a_15,ag4a_15_unit,ag4a_16,ag4a_19,ag4a_21,ag4a_23,ag5uuid,ag5parentuuid,
+ag5surveyuuid,ag5season,ag5zaocode,ag5acropname,ag5a_01,ag5a_02_1,ag5a_02_2,ag5a_03,
+ag5a_12_1,ag5a_20,ag5a_21,ag5a_21_other,ag5a_22,ag5a_24,ag5a_24_other,ag5a_25,ag5a_26,
+ag12uuid,ag12parentuuid,ag12surveyuuid,source_id,source_name,sourceid,ag12a_02_1,
+ag12a_02_2,ag12a_02_3,ag12a_02_4,ag12a_02_5,ag12a_02_6,ag12a_03,ag12a_04,ag12a_05,
+srcuuid,srcparentuuid,srcsurveyuuid,source_id_family,source_name_family,ag12b_06,
+ag12b_08,ag12b_09,ag3uuid,ag3parentuuid,ag3surveyuuid,ag3afieldid,ag3season,ag3a_02_1,
+ag3a_02_2,ag3a_02_3,ag3a_03,ag3a_03_other,ag3a_04,ag3a_07_1,ag3a_10,ag3a_14,ag3a_15_1,
+ag3a_15_2,ag3a_17,ag3a_18,ag3a_18_other,ag3a_20,ag3a_20_other,ag31_vs_13,ag3a_23,
+ag3a_24,ag3a_24_other,ag3a_28,ag3a_34,ag3f_33_17,ag3a_39,ag3a_vs_18a,ag3a_vs_18a_other,
+ag3a_vs_18b,ag3a_vs_18b_other,ag3a_40,ag3a_41,ag3a_42,ag3a_43,ag3a_45,ag3a_46,ag3a_46_other,
+ag3a_47,ag3a_48,ag3a_49,ag3a_52,ag3a_53,ag3a_53_other,ag3a_54,ag3a_55,ag3a_56,ag3a_58,
+ag3a_59,ag3a_59_other,ag3a_60_1,ag3a_60_2,ag3a_61,ag3a_72_1,ag3a_72_2,ag3a_72_21,
+ag3a_72_3,ag3a_72_4,ag3a_72_5,ag3a_72_51,ag3a_72_6,ag3a_72_62,ag3a_72_61,ag3a_72_63,
+ag3a_72_64,ag3a_72_7,ag3a_72_8,ag3a_72_81,ag3a_72_9,fd33_18a_1,fd33_18a_2,fd33_18a_3,
+fd33_18a_4,fd33_18a_5,fd33_18a_6,fd33_18a_7,fd33_18a_8,fd35_24a_dap,fd35_24a_urea,
+fd35_24a_tsp,fd35_24a_can,fd35_24a_sa,fd35_24a_npk,fd35_24a_mrp,fd3b3_18a_1,fd3b3_18a_2,
+fd3b3_18a_3,fd3b3_18a_4,fd3b3_18a_5,fd3b3_18a_6,fd3b3_18a_7,fd3b3_18a_8,fd3b5a_24a_dap,
+fd3b5a_24a_urea,fd3b5a_24a_tsp,fd3b5a_24a_can,fd3b5a_24a_sa,fd3b5a_24a_npk,fd3b5a_24a_mrp,
+ag2auuid,ag2aparentuuid,ag2asurveyuuid,ag2afieldid,field_name,ag2a_vs_2b1,ag2a_vs_2b1_other,
+ag2a_vs_2b2_1,ag2a_vs_2c,ag2a_vs_2c_other,ag2a_vs_2d1,ag2a_04,ag2a_07,ag2a_08,ag2a_08_other,
+gps_lat,gps_long,gps_coords,ag11uuid,ag11parentuuid,ag11surveyuuid,itemcode,toolname,
+ag11_01,ag11_07,ag10auuid,ag10aparentuuid,ag10asurveyuuid,lvstkcode,animal_name,
+ag10a_05_1,ag10a_05_2,ag10a_05_3,ag10a_19,ag10a_20,ag10a_21,ag10a_24,ag10a_25,ag10a_26,
+ag10a_27,ag10a_33,ag10a_34,ag10a_vs_01,ag10a_vs_02,ag10a_vs_03,ag10a_vs_04,ag10buuid,
+ag10bparentuuid,ag10bsurveyuuid,ag10bitemcode,ag10b_01,ag10b_1a,ag10b_1a_unit,ag10b_1b,
+ag10b_05_1,ag10b_05_2,ag10b_06,ag7auuid,ag7aparentuuid,ag7asurveyuuid,crop_type,
+ag7azaocode,ag7acropname,ag7a_02,ag7a_03_1,ag7a_03_2,ag7a_04,hhuuid,parentuuid,surveyuuid,
+hhindidname,hh_indid_age,hh_indid_gender,hh_indid_respondent,hhind from
+public."agricfinalr1"
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,
+58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,
+85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,
+109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,
+129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,
+149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,
+169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,
+189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,
+209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,
+229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,
+249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,
+269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,
+289,290,291,292,293,294,295,296,297,298,299,300,301,302
+
+help view public."biomass_vw"
+
+select definition from pg_views where viewname = 'biomass_vw'
+
+
+create view biomass_vw1 as
+ SELECT eplot_woody_plant_stem.uuid AS ewps_uuid,     eplot_woody_plant.uuid AS ewp_uuid, eplot_woody_plant.parent_uuid,     (((3.14)::double precision * ((eplot_woody_plant_stem.tree_multistem_circumference / (2)::double precision) ^ (2)::double precision)) * eplot_woody_plant_stem.tree_multistem_height) AS biomass    FROM (eplot_woody_plant_stem      JOIN eplot_woody_plant ON (((eplot_woody_plant_stem.parent_uuid)::text = (eplot_woody_plant.uuid)::text)));
+
+inner \\
+
+
+
+
+select count(*) from public."household" where hh_no is null
+
+
+
+
+
+
